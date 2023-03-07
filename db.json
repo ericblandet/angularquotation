@@ -1,0 +1,92 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "description": "Nordica unlimited Dyn 130, 25.5",
+      "quantity": "1",
+      "unit": "pcs",
+      "unitPrice": "700",
+      "totalPrice": "700",
+      "type": "item"
+    },
+    {
+      "id": "2",
+      "description": "BlackCrows Mirus Cor 173",
+      "quantity": "1",
+      "unit": "pcs",
+      "unitPrice": "950",
+      "totalPrice": "950",
+      "type": "item"
+    },
+    {
+      "id": "3",
+      "description": "Marker Griffon, dark blue",
+      "quantity": "1",
+      "unit": "pcs",
+      "unitPrice": "350",
+      "totalPrice": "350",
+      "type": "item"
+    },
+    {
+      "id": "4",
+      "description": "Montage des fixations",
+      "quantity": "1",
+      "unit": "forfait",
+      "unitPrice": "80",
+      "totalPrice": "80",
+      "type": "item"
+    },
+    {
+      "id": "5",
+      "description": "Déplacement",
+      "quantity": "2",
+      "unit": "forfait",
+      "unitPrice": "100",
+      "totalPrice": "100",
+      "type": "item"
+    },
+    {
+      "id": "6",
+      "description": "Cours de ski",
+      "quantity": "6",
+      "unit": "h",
+      "unitPrice": "120",
+      "totalPrice": "720",
+      "type": "item"
+    }
+  ],
+  "sub-groups": [
+    {
+      "id": "1",
+      "description": "Matériel",
+      "itemIds": ["1", "2", "3"],
+      "type": "subGroup"
+    },
+    {
+      "id": "2",
+      "description": "Main d'oeuvre",
+      "itemIds": ["4"],
+      "type": "subGroup"
+    },
+    {
+      "id": "3",
+      "description": "Main d'oeuvre",
+      "itemIds": ["5", "6"],
+      "type": "subGroup"
+    }
+  ],
+  "main-groups": [
+    {
+      "id": "1",
+      "description": "Matériel",
+      "subGroupIds": ["1", "2"],
+      "type": "mainGroup"
+    },
+    {
+      "id": "2",
+      "description": "Accompagnement",
+      "subGroupIds": ["3"],
+      "type": "mainGroup"
+    }
+  ]
+}

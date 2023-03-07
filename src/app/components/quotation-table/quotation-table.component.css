@@ -1,0 +1,37 @@
+.table-container {
+    margin: 200px auto 20px auto;
+}
+
+.table-container td {
+    /* border-left: none;
+    border-right: none */
+}
+
+.row-item {
+    /* background-color: aquamarine; */
+}
+
+.row-subGroup {
+    /* background-color: aqua; */
+}
+
+.row-mainGroup {
+    /* background-color: cornflowerblue; */
+}
+
+.cell-item {}
+
+.cell-subGroup {}
+
+.cell-mainGroup {}
+
+.cell-quantity,
+.cell-unit,
+.cell-unitPrice,
+.cell-totalPrice {
+    text-align: center;
+}
+
+.cell-actions {
+    width: 30px;
+}

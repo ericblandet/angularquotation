@@ -1,0 +1,12 @@
+.company-card {
+    max-width: 270px;
+    margin: 10px;
+}
+
+.company-card p {
+    margin-bottom: 0px;
+}
+
+.company-card mat-card-title {
+    margin-bottom: 10px;
+}
