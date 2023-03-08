@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainGroupComponent } from './main-group.component';
+import { DisplayedLineComponent } from './displayed-line.component';
 
-describe('MainGroupComponent', () => {
-  let component: MainGroupComponent;
-  let fixture: ComponentFixture<MainGroupComponent>;
+describe('DisplayedLineComponent', () => {
+  let component: DisplayedLineComponent;
+  let fixture: ComponentFixture<DisplayedLineComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MainGroupComponent ]
+      declarations: [ DisplayedLineComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MainGroupComponent);
+    fixture = TestBed.createComponent(DisplayedLineComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Line, Item, SubGroup, MainGroup } from '../../app-interfaces';
+import { Item, Header } from '../../app-interfaces';
 
-import { MainGroupService } from '../../services/main-group.service';
-import { SubGroupService } from '../../services/sub-group.service';
 import { ItemService } from '../../services/item.service';
 
 import { headers } from './headers';
@@ -14,77 +12,120 @@ import { headers } from './headers';
   styleUrls: ['./quotation-table.component.css'],
 })
 export class QuotationTableComponent implements OnInit {
-  items: Item[] = [];
-  subGroups: SubGroup[] = [];
-  mainGroups: MainGroup[] = [];
-  lines: Line[] = [];
-  id_counter = 0;
+  // Headers we want to display
+  headers: Header[] = headers;
+  // raw Items served from the DB
+  rawItems: Item[] = [];
+  // Lines that we will display
+  lines: Item[] = [];
+  idCounter: number = 0;
 
-  headers = headers;
-  constructor(
-    private itemService: ItemService,
-    private subGroupService: SubGroupService,
-    private MainGroupService: MainGroupService
-  ) {}
+  constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
-    this.MainGroupService.getMainGroups().subscribe((res) => {
-      this.mainGroups = res;
-      this.subGroupService.getSubGroups().subscribe((res) => {
-        this.subGroups = res;
-        this.itemService.getItems().subscribe((res) => {
-          this.items = res;
-          this.createData();
-        });
-      });
-    });
-    console.log(this.mainGroups, this.subGroups, this.items);
-  }
-
-  getSubGroups(mainGroup: MainGroup) {
-    const filteredSubgroups = this.subGroups.filter((el) => {
-      return mainGroup['subGroupIds'].includes(el.id);
-    });
-    return filteredSubgroups;
-  }
-  getItems(subGroup: SubGroup) {
-    return this.items.filter((el) => {
-      subGroup['itemIds'].includes(el.id);
+    this.itemService.getItems().subscribe((res) => {
+      this.rawItems = res;
+      this.createLines(this.rawItems[0]);
     });
   }
 
-  createData() {
-    this.mainGroups.forEach((mainGroup) => {
-      this.lines.push(this.serializeToLine(mainGroup));
-      const subGroups = this.subGroups.filter((subGroup) => {
-        return mainGroup['subGroupIds'].includes(subGroup.id);
-      });
-      subGroups.forEach((subGroup) => {
-        this.lines.push(this.serializeToLine(subGroup));
-        const items = this.items.filter((item) => {
-          return subGroup['itemIds'].includes(item.id);
+  // Recursively create the lines we want to display
+  createLines(node: Item): void {
+    if (node.type !== 'root') {
+      this.lines.push(node);
+    }
+
+    if (node.childrenIds) {
+      node.childrenIds.forEach((childNodeId) => {
+        const childNode = this.rawItems.find((item) => {
+          return item.id === childNodeId;
         });
 
-        items.forEach((item) => {
-          this.lines.push(this.serializeToLine(item));
-        });
+        if (childNode) {
+          this.idCounter = Math.max(this.idCounter, parseInt(childNode.id));
+          this.createLines(childNode);
+        }
       });
-    });
+    }
+  }
+
+  getSubGroupParentId(clickedLine: Item): any {
+    if (clickedLine.type === 'mainGroup') {
+      return clickedLine.id;
+    } else if (clickedLine.type === 'subGroup') {
+      return clickedLine.parentId;
+    } else {
+      const parent = this.lines.find((line) => {
+        return line.id === clickedLine.parentId;
+      });
+      // TODO : deal with this error !
+      if (!parent) {
+        return 'ERROR';
+      }
+      return parent.parentId;
+    }
+  }
+
+  getQuotationLineParentId(clickedLine: Item): any {
+    if (clickedLine.type === 'quotationLine') {
+      return clickedLine.parentId;
+    }
+    return clickedLine.id;
+  }
+
+  addLine(clickedLine: Item, type: string): void {
+    this.idCounter += 1;
+
+    let parentId =
+      type == 'quotationLine'
+        ? this.getQuotationLineParentId(clickedLine)
+        : type == 'subGroup'
+        ? this.getSubGroupParentId(clickedLine)
+        : '1';
+
+    const newLine: Item = {
+      id: this.idCounter.toString(),
+      description: '',
+      type: type,
+      quantity: type === 'quotationLine' ? 0 : undefined,
+      unit: type === 'quotationLine' ? '' : undefined,
+      unitPrice: type === 'quotationLine' ? 0 : undefined,
+      totalPrice: 0,
+      childrenIds: type === 'quotationLine' ? undefined : [],
+      parentId: parentId,
+    };
+    this.addItemToParent(newLine);
+    this.rawItems.push(newLine);
+    this.lines = [];
+    this.createLines(this.rawItems[0]);
     console.log(this.lines);
   }
 
-  serializeToLine(obj: any): Line {
-    this.id_counter += 1;
+  addItemToParent(newLine: Item) {
+    const parentIdx = this.rawItems.findIndex((line) => {
+      return line.id === newLine.parentId;
+    });
+    this.rawItems[parentIdx].childrenIds?.push(newLine.id);
+  }
 
-    return {
-      id: this.id_counter.toString(),
-      description: obj.description ?? null,
-      quantity: obj.quantity ?? null,
-      unit: obj.unit ?? null,
-      unitPrice: obj.unitPrice ?? null,
-      totalPrice: obj.totalPrice ?? null,
-      type: obj.type,
-      sort: this.id_counter.toString(),
-    };
+  //recursive method to compute the total price on each line
+  getTotalPrice(line: Item) {
+    if (line.quantity && line.unitPrice) {
+      return line.quantity * line.unitPrice;
+    }
+    if (line.childrenIds) {
+      let sum = 0;
+      line.childrenIds.forEach((childId) => {
+        const child = this.lines.find((line) => {
+          return line.id === childId;
+        });
+        if (child) {
+          sum += this.getTotalPrice(child);
+        }
+      });
+      return sum;
+    } else {
+      return 0;
+    }
   }
 }

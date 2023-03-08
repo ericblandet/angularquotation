@@ -1,31 +1,32 @@
 <div class="table-container">
   <table>
-    <tr>
-      <th *ngFor="let header of headers" [ngStyle]="{ width: header.width }">
-        {{ header.display }}
-      </th>
-    </tr>
-    <tr *ngFor="let line of lines" [ngClass]="'row-' + line['type']">
-      <td
-        *ngFor="let column of headers"
-        [ngClass]="'cell-' + line['type'] + ' cell-' + column.name"
-      >
-        <span
-          *ngIf="line['type'] == 'mainGroup' && column.name == 'description'"
-        >
-          >>
-        </span>
-        <span
-          *ngIf="line['type'] == 'subGroup' && column.name == 'description'"
-        >
-          >
-        </span>
-        <span *ngIf="line['type'] == 'item' && column.name == 'description'">
-          --
-        </span>
-        {{ line[column.name] }}
-      </td>
-      <td class="cell-actions">actions</td>
-    </tr>
+    <thead>
+      <tr>
+        <th *ngFor="let header of headers" [ngStyle]="{ width: header.width }">
+          {{ header.display }}
+        </th>
+        <th>actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let line of lines" [ngClass]="'row-' + line['type']">
+        <app-displayed-line
+          [line]="line"
+          [headers]="headers"
+          [totalPrice]="getTotalPrice(line)"
+        ></app-displayed-line>
+        <!-- <td class="cell-actions">
+          <button (click)="addLine(line, 'quotationLine')">
+            Ajouter une ligne de chiffrage
+          </button>
+          <button (click)="addLine(line, 'subGroup')">
+            Ajouter un sous-groupe
+          </button>
+        </td> -->
+      </tr>
+    </tbody>
   </table>
+  <button (click)="addLine(lines[lines.length - 1], 'mainGroup')">
+    Ajouter un groupe principal
+  </button>
 </div>

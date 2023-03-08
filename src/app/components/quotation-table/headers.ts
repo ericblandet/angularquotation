@@ -1,7 +1,7 @@
 export const headers = [
   {
     name: 'description',
-    width: '75%',
+    width: '60%',
     display: 'Désignation',
     sort: 10,
   },
@@ -19,7 +19,7 @@ export const headers = [
   },
   {
     name: 'unitPrice',
-    width: '10%',
+    width: '5%',
     display: 'Prix unitaire',
     sort: 40,
   },
@@ -29,10 +29,10 @@ export const headers = [
     display: 'Prix Total',
     sort: 50,
   },
-  {
-    name: 'actions',
-    width: '10%',
-    display: '',
-    sort: 60,
-  },
+  // {
+  //   name: 'actions',
+  //   width: '10%',
+  //   display: '',
+  //   sort: 60,
+  // },
 ];
