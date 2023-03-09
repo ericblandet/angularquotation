@@ -11,7 +11,10 @@ import { MatCardModule } from '@angular/material/card';
 import { QuotationTableComponent } from './components/quotation-table/quotation-table.component';
 import { ItemService } from './services/item.service';
 import { HttpClientModule } from '@angular/common/http';
-import { DisplayedLineComponent } from './components/displayed-line/displayed-line.component';
+import { MatTableModule } from '@angular/material/table';
+import { CdkTableModule } from '@angular/cdk/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,6 @@ import { DisplayedLineComponent } from './components/displayed-line/displayed-li
     HeaderComponent,
     CompanyInfoComponent,
     QuotationTableComponent,
-    DisplayedLineComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,10 @@ import { DisplayedLineComponent } from './components/displayed-line/displayed-li
     MatToolbarModule,
     MatCardModule,
     HttpClientModule,
+    MatTableModule,
+    CdkTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [ItemService],
   bootstrap: [AppComponent],
