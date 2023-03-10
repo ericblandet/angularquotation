@@ -13,8 +13,11 @@ import { ItemService } from './services/item.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { CardTotalComponent } from './components/card-total/card-total.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,7 @@ import { MatSortModule } from '@angular/material/sort';
     HeaderComponent,
     CompanyInfoComponent,
     QuotationTableComponent,
+    CardTotalComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,8 +36,10 @@ import { MatSortModule } from '@angular/material/sort';
     HttpClientModule,
     MatTableModule,
     CdkTableModule,
-    MatPaginatorModule,
-    MatSortModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   providers: [ItemService],
   bootstrap: [AppComponent],

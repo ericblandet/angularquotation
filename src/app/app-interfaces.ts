@@ -8,7 +8,7 @@ export interface Item {
   totalPrice: number | undefined;
   type: string;
   parentId: string | undefined;
-  childrenIds: string[] | undefined;
+  childrenIds: string[];
 }
 
 export interface Header {

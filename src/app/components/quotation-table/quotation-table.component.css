@@ -1,59 +1,185 @@
 .table-container {
-    margin: 200px auto 20px auto;
+    margin: 10px auto 10px auto;
+    padding: 20px 30px
 }
 
-.table-container table {
-    border-collapse: collapse;
-    background-color: aquamarine;
-    border-style: solid;
-    border-color: lightgrey;
+table {
+    width: 50%;
 }
 
-.table-container th {
-    /* border-left: none; */
-    border: solid lightgrey;
-
+.row-root {
+    display: none;
 }
 
+.header-right {
+    text-align: right;
+}
+
+.row-header th {
+    background-color: rgb(157, 175, 193);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+
+.row-quotationLine .mat-column-description mat-icon {
+    padding-left: 30px
+}
+
+.row-subGroup .mat-column-description mat-icon {
+    padding-left: 15px
+}
+
+
+.mat-column-description mat-icon {
+    overflow: unset;
+    font-size: 1rem;
+}
 
 .row-quotationLine {
-    background-color: aquamarine;
-    border-style: solid;
-    border-color: lightgrey;
+    /* background-color: aquamarine; */
 }
 
 .row-subGroup {
-    background-color: aqua;
+    /* background-color: aqua; */
 }
 
 .row-mainGroup {
-    background-color: cornflowerblue;
-}
-
-.cell-quotationLine {
-    border-style: solid;
-    border-color: lightgrey;
-}
-
-.cell-subGroup {}
-
-.cell-mainGroup {}
-
-.cell-quantity,
-.cell-unit,
-.cell-unitPrice {
-    text-align: center;
+    /* background-color: cornflowerblue; */
 }
 
 .cell-totalPrice {
-    text-align: center;
-    border-style: solid;
-    border-color: lightgrey;
+    text-align: right;
+}
+
+.mat-column-description {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+
+}
+
+.mat-column-quantity,
+.mat-column-unit,
+.mat-column-unitPrice,
+.mat-column-totalPrice {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    /* flex: 0 0 10% !important; */
+    /* width: 10% !important; */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 
-.cell-actions {
-    width: 100px;
-    border-style: solid;
-    border-color: lightgrey;
+.button-addMainGroup {
+    display: block;
+    margin: 0 auto;
+}
+
+.button-container {
+    width: 100%;
+}
+
+.button-save {
+    display: block;
+    margin: 0 auto 10px 10px;
+    float: right
+}
+
+/* inputs */
+
+input,
+span {
+    background: 0;
+    border: 0;
+    width: 90%;
+    max-width: 400px;
+    transition: padding 0.3s 0.2s ease;
+    text-align: right;
+}
+
+input:hover,
+input:focus,
+input:focus-visible {
+    border-bottom: 3px solid gray;
+    outline: none;
+    background-color: aliceblue;
+}
+
+.mat-column-description input {
+    text-align: left;
+}
+
+
+
+/* styling for the menu */
+.my-menu {
+    background-color: #fff;
+    border: 1px solid rosybrown;
+    padding: 20px;
+}
+
+
+.row-menu {
+    background-color: #fafafa;
+    padding: 4pt;
+    font-size: 10pt;
+    z-index: 1000;
+    box-shadow: 0 0 12pt rgba(0, 0, 0, 0.25);
+    border-radius: 4pt;
+    padding: 0.5em 0 0.5em 0;
+    animation: fadeIn 0.1s ease-out;
+    opacity: 1.0;
+    display: block;
+}
+
+
+.row-menu hr {
+    border: none;
+    border-bottom: 1px solid #eee;
+}
+
+.row-menu div {
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 0.5em 2em 0.5em 0.75em;
+    max-width: 18em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.row-menu div:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+
+.row-menu div::before {
+    content: '';
+    float: left;
+    margin-right: 0.75em;
+    width: 0.5em;
+    height: 1em;
+    display: inline-block;
 }

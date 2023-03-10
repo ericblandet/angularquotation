@@ -1,0 +1,33 @@
+.total-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.grid-container {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 200px 200px;
+}
+
+.total-card {
+    max-width: 400px;
+    margin: 20px;
+}
+
+.total-card p {
+    margin-bottom: 0px;
+}
+
+.total-card mat-card-title {
+    margin-bottom: 10px;
+}
+
+.left-grid {
+    text-align: right;
+}
+
+.right-grid {
+    text-align: left;
+    /* font-weight: 800; */
+    padding-left: 20px
+}

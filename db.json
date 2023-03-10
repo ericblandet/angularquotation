@@ -15,6 +15,7 @@
       "unitPrice": "950",
       "totalPrice": "950",
       "type": "quotationLine",
+      "childrenIds": [],
       "parentId": "7"
     },
     {
@@ -25,6 +26,7 @@
       "unitPrice": "350",
       "totalPrice": "350",
       "type": "quotationLine",
+      "childrenIds": [],
       "parentId": "7"
     },
     {
@@ -35,6 +37,7 @@
       "unitPrice": "80",
       "totalPrice": "80",
       "type": "quotationLine",
+      "childrenIds": [],
       "parentId": "8"
     },
     {
@@ -45,6 +48,7 @@
       "unitPrice": "100",
       "totalPrice": "100",
       "type": "quotationLine",
+      "childrenIds": [],
       "parentId": "9"
     },
     {
@@ -55,6 +59,7 @@
       "unitPrice": "120",
       "totalPrice": "720",
       "type": "quotationLine",
+      "childrenIds": [],
       "parentId": "9"
     },
     {
@@ -98,6 +103,7 @@
       "unitPrice": "700",
       "totalPrice": "700",
       "type": "quotationLine",
+      "childrenIds": [],
       "parentId": "7"
     }
   ]

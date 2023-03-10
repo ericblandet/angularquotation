@@ -1,0 +1,14 @@
+<div class="total-container">
+  <mat-card class="total-card">
+    <mat-card-content class="grid-container">
+      <span class="left-grid">Montant total brut HT </span>
+      <span class="right-grid">{{ computeTotalPrice() }} CHF</span>
+      <span class="left-grid">TVA 7.7% </span>
+      <span class="right-grid">{{ computeVAT() }} CHF</span>
+      <span class="left-grid"> Montant Total Net TTC arrondi </span>
+      <span class="right-grid"
+        ><strong>{{ computeTotalPriceVATIncluded() }} CHF</strong></span
+      >
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,61 +1,91 @@
-<!-- <div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th *ngFor="let header of headers" [ngStyle]="{ width: header.width }">
-          {{ header.display }}
-        </th>
-        <th>actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let line of lines" [ngClass]="'row-' + line['type']">
-        <td
-          *ngFor="let column of headers"
-          [ngClass]="'cell-' + line['type'] + ' cell-' + column.name"
-        >
-          <span *ngIf="line['type'] == 'mainGroup' && column.name == 'description'">
-            >>
-          </span>
-          <span *ngIf="line['type'] == 'subGroup' && column.name == 'description'">
-            >
-          </span>
-          <span *ngIf="line['type'] == 'quotationLine' && column.name == 'description'">
-            --
-          </span>
-          <span>{{ getPropertyValue(line, column) }}</span>
+<div class="table-container">
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="button-save">
+      Enregistrer
+    </button>
+  </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Désignation</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon>{{ getPrependIcon(element) }}</mat-icon>
+        <input [formControl]="element.get('description')" />
+      </td>
+    </ng-container>
 
-          <input *ngIf="column.name == 'description'" type="text" />
-          <input *ngIf="column.name == 'quantity'" type="number" />
-          <input *ngIf="column.name == 'unit'" type="text" />
-          <input *ngIf="column.name == 'unitPrice'" type="number" />
-          <span *ngIf="column.name == 'totalPrice'">
-            {{ totalPrice }}
-          </span>
-        </td>
-        <td class="cell-actions">
-          <button (click)="addLine(line, 'quotationLine')">
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef class="header-right">Quantité</th>
+      <td mat-cell *matCellDef="let element">
+        <input
+          *ngIf="element.value.type === 'quotationLine'"
+          [formControl]="element.get('quantity')"
+        />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="unit">
+      <th mat-header-cell *matHeaderCellDef class="header-right">unité</th>
+      <td mat-cell *matCellDef="let element">
+        <input
+          *ngIf="element.value.type === 'quotationLine'"
+          [formControl]="element.get('unit')"
+        />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="unitPrice">
+      <th mat-header-cell *matHeaderCellDef class="header-right">PU</th>
+      <td mat-cell *matCellDef="let element">
+        <input
+          *ngIf="element.value.type === 'quotationLine'"
+          [formControl]="element.get('unitPrice')"
+        />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef class="header-right">Prix total</th>
+      <td mat-cell *matCellDef="let element; let idx = index">
+        <div class="cell-totalPrice">
+          {{ getTotalPriceForLine(element.value, idx).toFixed(2) }}
+        </div>
+      </td>
+    </ng-container>
+
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+      class="row-header"
+    ></tr>
+    <tr
+      [ngClass]="getRowClass(row)"
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (contextmenu)="open($event, row.value); $event.preventDefault()"
+    >
+      <ng-template #rowMenu let-row>
+        <section class="row-menu">
+          <div (click)="addLine(row, 'quotationLine')">
             Ajouter une ligne de chiffrage
-          </button>
-          <button (click)="addLine(line, 'subGroup')">
-            Ajouter un sous-groupe
-          </button>
-        </td>
-      </tr>
-    </tbody>
+          </div>
+          <div (click)="addLine(row, 'subGroup')">Ajouter un sous-groupe</div>
+          <div (click)="deleteLine(row)">Supprimer</div>
+        </section>
+      </ng-template>
+    </tr>
   </table>
-  <button (click)="addLine(lines[lines.length - 1], 'mainGroup')">
+
+  <button
+    mat-raised-button
+    color="basic"
+    (click)="addLine(formArray.value.at(0), 'mainGroup')"
+    class="button-addMainGroup"
+  >
     Ajouter un groupe principal
   </button>
-</div> -->
-<table mat-table [dataSource]="lines" class="mat-elevation-z8">
-  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-    <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
-    <td mat-cell *matCellDef="let element">
-      {{ getPropertyValue2(element, column) }}
-    </td>
-  </ng-container>
+</div>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+<!-- for debugging purposes -->
+<!-- <pre>
+  {{ formArray.value | json }}
+</pre> -->

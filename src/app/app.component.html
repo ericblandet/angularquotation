@@ -1,5 +1,19 @@
 <app-header></app-header>
 <div class="container">
-  <app-company-info></app-company-info>
-  <app-quotation-table></app-quotation-table>
+  <mat-card class="page-card">
+    <app-company-info></app-company-info>
+    <mat-card class="text-card">
+      <h1>Devis</h1>
+      <p>
+        Suite à votre demande, je vous prie de bien vouloir trouver notre devis
+        ci-desous pour les travaux demandés.
+      </p>
+    </mat-card>
+    <app-quotation-table
+      (totalPriceUpdated)="transmitTotalPrice($event)"
+    ></app-quotation-table>
+
+    <!-- <p>PLOOOOP {{ totalPrice }}</p> -->
+    <app-card-total [totalPrice]="totalPrice"></app-card-total>
+  </mat-card>
 </div>

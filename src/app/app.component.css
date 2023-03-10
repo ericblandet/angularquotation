@@ -1,4 +1,18 @@
 .container {
     max-width: 1200px;
+    width: 95%;
     margin: auto
+}
+
+.page-card {
+    margin: 30px auto !important;
+    padding: 50px;
+    max-width: 2400px;
+    margin: 10px;
+}
+
+.text-card {
+    max-width: 2400px;
+    margin: 50px auto 20px 30px;
+    box-shadow: none;
 }
