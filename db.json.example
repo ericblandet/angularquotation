@@ -1,7 +1,7 @@
 {
   "quotes": [
     {
-      "items": [
+      "body": [
         {
           "id": "1",
           "type": "root",
@@ -10,11 +10,7 @@
           "unit": null,
           "unitPrice": null,
           "totalPrice": null,
-          "childrenIds": [
-            "10",
-            "11",
-            "13"
-          ],
+          "childrenIds": ["10", "11"],
           "parentId": null
         },
         {
@@ -25,10 +21,7 @@
           "unit": null,
           "unitPrice": null,
           "totalPrice": null,
-          "childrenIds": [
-            "7",
-            "8"
-          ],
+          "childrenIds": ["7", "8"],
           "parentId": null
         },
         {
@@ -39,11 +32,7 @@
           "unit": null,
           "unitPrice": null,
           "totalPrice": null,
-          "childrenIds": [
-            "12",
-            "2",
-            "3"
-          ],
+          "childrenIds": ["12", "2", "3"],
           "parentId": "10"
         },
         {
@@ -87,9 +76,7 @@
           "unit": null,
           "unitPrice": null,
           "totalPrice": null,
-          "childrenIds": [
-            "4"
-          ],
+          "childrenIds": ["4"],
           "parentId": "10"
         },
         {
@@ -111,10 +98,7 @@
           "unit": null,
           "unitPrice": null,
           "totalPrice": null,
-          "childrenIds": [
-            "5",
-            "6"
-          ],
+          "childrenIds": ["5", "6"],
           "parentId": null
         },
         {
@@ -138,43 +122,6 @@
           "totalPrice": 720,
           "childrenIds": [],
           "parentId": "9"
-        },
-        {
-          "id": "13",
-          "type": "mainGroup",
-          "description": "Nouveau Groupe",
-          "quantity": null,
-          "unit": null,
-          "unitPrice": null,
-          "totalPrice": 0,
-          "childrenIds": [
-            "14"
-          ],
-          "parentId": "1"
-        },
-        {
-          "id": "14",
-          "type": "subGroup",
-          "description": "Nouveau sous-groupe",
-          "quantity": null,
-          "unit": null,
-          "unitPrice": null,
-          "totalPrice": 0,
-          "childrenIds": [
-            "15"
-          ],
-          "parentId": "13"
-        },
-        {
-          "id": "15",
-          "type": "quotationLine",
-          "description": "Nouvelle ligne de chiffrage",
-          "quantity": "1",
-          "unit": "h",
-          "unitPrice": "200",
-          "totalPrice": 0,
-          "childrenIds": [],
-          "parentId": "14"
         }
       ],
       "id": "1"

@@ -17,3 +17,7 @@ export interface Header {
   display: string;
   sort: number;
 }
+export interface Quote {
+  id: string;
+  items: Item[];
+}

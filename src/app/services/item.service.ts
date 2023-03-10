@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Item } from '../app-interfaces';
-import { HttpClient } from '@angular/common/http';
+import { Item, Quote } from '../app-interfaces';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +9,18 @@ import { HttpClient } from '@angular/common/http';
 export class ItemService {
   constructor(private http: HttpClient) {}
 
-  baserUrl = 'http://localhost:3000/items/';
+  baserUrl = 'http://localhost:3000/';
 
-  getItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(this.baserUrl);
+  getQuote(quoteId: string): Observable<Quote> {
+    return this.http.get<Quote>(`${this.baserUrl}quotes/${quoteId}`);
+  }
+
+  updateQuote(quoteId: string, items: Item[]): Observable<Quote> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.put<Quote>(
+      `${this.baserUrl}quotes/${quoteId}`,
+      { items },
+      { headers: headers }
+    );
   }
 }

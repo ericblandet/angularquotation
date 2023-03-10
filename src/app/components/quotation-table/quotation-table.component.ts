@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Item } from '../../app-interfaces';
+import { Item, Quote } from '../../app-interfaces';
 import { ItemService } from '../../services/item.service';
 import { headers } from './headers';
 
@@ -23,6 +23,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
   styleUrls: ['./quotation-table.component.css'],
 })
 export class QuotationTableComponent implements OnInit {
+  quoteId: string = '1';
   rawItems: Item[] = []; // raw Items served from the DB
 
   dataToDisplay: Item[] = []; // Lines that we will display
@@ -49,8 +50,8 @@ export class QuotationTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.itemService.getItems().subscribe((res) => {
-      this.rawItems = res;
+    this.itemService.getQuote(this.quoteId).subscribe((res: Quote) => {
+      this.rawItems = res.items;
       this.populateLines(this.rawItems[0], this.rawItems);
       this.prepareDataSource(this.dataToDisplay);
     });
@@ -63,7 +64,6 @@ export class QuotationTableComponent implements OnInit {
   //recursively sort items
   populateLines(node: any, tree: Item[]) {
     this.dataToDisplay.push(node);
-
     if (node.childrenIds?.length) {
       node.childrenIds.forEach((childNodeId: any) => {
         const childNode = tree.find((item) => {
@@ -126,7 +126,9 @@ export class QuotationTableComponent implements OnInit {
 
   getTotalPriceForLine(element: Item, idx: number) {
     const totalForLine = this.computeTotalPrice(element);
-    this.formArray.at(idx).value.totalPrice = totalForLine;
+    if (this.formArray.at(idx)?.value?.totalPrice) {
+      this.formArray.at(idx).value.totalPrice = totalForLine;
+    }
 
     if (element.type === 'root') {
       this.totalPriceUpdated.emit(totalForLine);
@@ -160,7 +162,6 @@ export class QuotationTableComponent implements OnInit {
   // * ------------------------------------------------
 
   addLine(clickedLine: Item, type: string): void {
-    console.log('entering AddLine');
     this.idCounter += 1;
 
     let parentId =
@@ -182,21 +183,17 @@ export class QuotationTableComponent implements OnInit {
       parentId: new FormControl(parentId),
     });
 
-    // order of finding where to insert and addItem
-    // is important !
-    // const insertAtIndex = this.findWhereToInsert(clickedLine, newFormGroup);
     this.addItemToParent(newFormGroup);
-    // Depending on which type of item we insert, and where in the table
-    // we insert the new line as the last element of its siblings
-    // console.log('where to insert ', insertAtIndex);
-    // we insert the line under the clicked line
-    // this.formArray.insert(insertAtIndex, newFormGroup);
     this.formArray.push(newFormGroup);
+
+    this.resetDataSource();
+  }
+
+  resetDataSource(): void {
+    this.idCounter = 0;
     this.dataToDisplay = [];
-    this.populateLines(this.formArray.at(0), this.formArray.value);
-    this.prepareDataSource(this.formArray.value);
-    console.log(this.formArray.controls);
-    // console.log(this.formArray);
+    this.populateLines(this.formArray.at(0).value, this.formArray.value);
+    this.prepareDataSource(this.dataToDisplay);
     this.dataSource = new MatTableDataSource(this.formArray.controls);
   }
 
@@ -211,24 +208,6 @@ export class QuotationTableComponent implements OnInit {
     const parent = this.formArray.at(parentIdx);
     parent.value.childrenIds.push(newFormGroup.value.id);
     this.formArray.setControl(parentIdx, parent);
-  }
-
-  findWhereToInsert(clickedLine: Item, formGroup: FormGroup): number {
-    console.log(this.formArray);
-    return 0;
-    /* si ligne sur ligne: return ParentlastChild index +1
-    si ligne sur subGroup return lastChild index + 1
-    si subGroup sur ligne return lastchild of last child of parent subgroup
-    si subGroup sur subGroup lastChild  
-    si Main Group A la fin
-    */
-
-    // if (
-    //   formGroup.value.type == 'quotationLine' &&
-    //   clickedLine.type === 'mainGroup'
-    // ) {
-    // }
-    // return 10000;
   }
 
   getSubGroupParentId(clickedLine: Item): any {
@@ -255,16 +234,30 @@ export class QuotationTableComponent implements OnInit {
     return clickedLine.id;
   }
 
-  // getLastDecendant(formGroup: FormGroup, idx: any): FormGroup {
-  //   const node = formGroup;
-  //   if (node.value.)
-
-  // }
-
   deleteLine(clickedLine: Item) {
-    console.log('time to say goodbye');
+    if (clickedLine.childrenIds.length) {
+      alert(
+        "Vous ne pouvez supprimer cette ligne, car elle a des lignes dépendantes. Supprimez d'abord les lignes qui en dépendent."
+      );
+      return;
+    }
+
+    const toDeleteIdx = this.formArray.value.findIndex((x: Item) => {
+      return x.id === clickedLine.id;
+    });
+
+    this.formArray.removeAt(toDeleteIdx);
+    this.resetDataSource();
   }
-  saveQuotation() {}
+  saveQuotation() {
+    this.itemService
+      .updateQuote(this.quoteId, this.formArray.value)
+      .subscribe((res) => {
+        alert(
+          `Votre Devis a bien été sauvegardé en base de données, sous l'id=${res.id}`
+        );
+      });
+  }
 
   // * ------------------------------------------------
   // * CONTEXT MENU
