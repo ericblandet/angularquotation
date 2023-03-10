@@ -16,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { Subscription, filter, fromEvent, take } from 'rxjs';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { defaultQuote } from './default-quote';
 
 @Component({
   selector: 'app-quotation-table',
@@ -51,8 +52,15 @@ export class QuotationTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.itemService.getQuote(this.quoteId).subscribe((res: Quote) => {
-      this.rawItems = res.items;
-      this.populateLines(this.rawItems[0], this.rawItems);
+      let rootElement = this.getRootElement(res?.items);
+
+      if (!rootElement || !res.items[0].childrenIds.length) {
+        this.rawItems = defaultQuote(this.quoteId).items;
+        rootElement = this.getRootElement(this.rawItems);
+      } else {
+        this.rawItems = res.items;
+      }
+      this.populateLines(rootElement, this.rawItems);
       this.prepareDataSource(this.dataToDisplay);
     });
   }
@@ -61,10 +69,25 @@ export class QuotationTableComponent implements OnInit {
   // * Retrieving data from DB
   // * ------------------------------------------------
 
+  // return root element of a quote.
+  // it should always have type= root and be unique
+  getRootElement(items: Item[] | null): Item | null {
+    if (items) {
+      const roots = items.filter((x) => {
+        return x.type === 'root';
+      });
+
+      if (roots.length === 1) {
+        return roots[0];
+      }
+    }
+    return null;
+  }
+
   //recursively sort items
   populateLines(node: any, tree: Item[]) {
     this.dataToDisplay.push(node);
-    if (node.childrenIds?.length) {
+    if (node?.childrenIds?.length) {
       node.childrenIds.forEach((childNodeId: any) => {
         const childNode = tree.find((item) => {
           return item.id === childNodeId;
@@ -175,9 +198,9 @@ export class QuotationTableComponent implements OnInit {
       id: new FormControl(this.idCounter.toString()),
       type: new FormControl(type),
       description: new FormControl(''),
-      quantity: new FormControl(type === 'quotationLine' ? 0 : undefined),
-      unit: new FormControl(type === 'quotationLine' ? '' : undefined),
-      unitPrice: new FormControl(type === 'quotationLine' ? 0 : undefined),
+      quantity: new FormControl(type === 'quotationLine' ? 0 : null),
+      unit: new FormControl(type === 'quotationLine' ? '' : null),
+      unitPrice: new FormControl(type === 'quotationLine' ? 0 : null),
       totalPrice: new FormControl(0),
       childrenIds: new FormControl([]),
       parentId: new FormControl(parentId),
@@ -192,7 +215,10 @@ export class QuotationTableComponent implements OnInit {
   resetDataSource(): void {
     this.idCounter = 0;
     this.dataToDisplay = [];
-    this.populateLines(this.formArray.at(0).value, this.formArray.value);
+    this.populateLines(
+      this.getRootElement(this.formArray.value),
+      this.formArray.value
+    );
     this.prepareDataSource(this.dataToDisplay);
     this.dataSource = new MatTableDataSource(this.formArray.controls);
   }
@@ -207,7 +233,7 @@ export class QuotationTableComponent implements OnInit {
     const parentIdx = this.getParentIdx(newFormGroup);
     const parent = this.formArray.at(parentIdx);
     parent.value.childrenIds.push(newFormGroup.value.id);
-    this.formArray.setControl(parentIdx, parent);
+    this.formArray.setControl(parentIdx, parent, { emitEvent: false });
   }
 
   getSubGroupParentId(clickedLine: Item): any {
@@ -234,6 +260,8 @@ export class QuotationTableComponent implements OnInit {
     return clickedLine.id;
   }
 
+  // remove line from parent-childrenIds array
+  // remove from FormArray
   deleteLine(clickedLine: Item) {
     if (clickedLine.childrenIds.length) {
       alert(
@@ -242,11 +270,21 @@ export class QuotationTableComponent implements OnInit {
       return;
     }
 
+    const parentIdx = this.formArray.value.findIndex((el: Item) => {
+      return el.id === clickedLine.parentId;
+    });
+    const lineIdxInChildrenArray = this.formArray
+      .at(parentIdx)
+      .value.childrenIds.indexOf(clickedLine.id);
+    this.formArray
+      .at(parentIdx)
+      .value.childrenIds.splice(lineIdxInChildrenArray, 1);
+
     const toDeleteIdx = this.formArray.value.findIndex((x: Item) => {
       return x.id === clickedLine.id;
     });
-
     this.formArray.removeAt(toDeleteIdx);
+
     this.resetDataSource();
   }
   saveQuotation() {

@@ -36,17 +36,10 @@ table {
     font-size: 1rem;
 }
 
-.row-quotationLine {
-    /* background-color: aquamarine; */
+.row-items {
+    cursor: pointer
 }
 
-.row-subGroup {
-    /* background-color: aqua; */
-}
-
-.row-mainGroup {
-    /* background-color: cornflowerblue; */
-}
 
 .cell-totalPrice {
     text-align: right;
@@ -91,7 +84,7 @@ table {
 
 .button-addMainGroup {
     display: block;
-    margin: 0 auto;
+    margin: 5px auto;
 }
 
 .button-container {
@@ -108,18 +101,19 @@ table {
 
 input,
 span {
-    background: 0;
+    /* background: 0; */
     border: 0;
     width: 90%;
     max-width: 400px;
     transition: padding 0.3s 0.2s ease;
     text-align: right;
+    border-bottom: 1px solid lightgray;
 }
 
 input:hover,
 input:focus,
 input:focus-visible {
-    border-bottom: 3px solid gray;
+    border-bottom: 3px solid indigo;
     outline: none;
     background-color: aliceblue;
 }

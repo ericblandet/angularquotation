@@ -13,7 +13,7 @@
           "childrenIds": [
             "10",
             "11",
-            "13"
+            "14"
           ],
           "parentId": null
         },
@@ -41,8 +41,7 @@
           "totalPrice": null,
           "childrenIds": [
             "12",
-            "2",
-            "3"
+            "2"
           ],
           "parentId": "10"
         },
@@ -69,17 +68,6 @@
           "parentId": "7"
         },
         {
-          "id": "3",
-          "type": "quotationLine",
-          "description": "Marker Griffon, dark blue",
-          "quantity": "1",
-          "unit": "pcs",
-          "unitPrice": "350",
-          "totalPrice": 350,
-          "childrenIds": [],
-          "parentId": "7"
-        },
-        {
           "id": "8",
           "type": "subGroup",
           "description": "Main d'oeuvre",
@@ -88,7 +76,8 @@
           "unitPrice": null,
           "totalPrice": null,
           "childrenIds": [
-            "4"
+            "4",
+            "13"
           ],
           "parentId": "10"
         },
@@ -98,8 +87,19 @@
           "description": "Montage des fixations",
           "quantity": "1",
           "unit": "forfait",
-          "unitPrice": "80",
-          "totalPrice": 80,
+          "unitPrice": "130",
+          "totalPrice": 130,
+          "childrenIds": [],
+          "parentId": "8"
+        },
+        {
+          "id": "13",
+          "type": "quotationLine",
+          "description": "Test",
+          "quantity": "1",
+          "unit": "h",
+          "unitPrice": "300",
+          "totalPrice": 0,
           "childrenIds": [],
           "parentId": "8"
         },
@@ -118,17 +118,6 @@
           "parentId": null
         },
         {
-          "id": "5",
-          "type": "quotationLine",
-          "description": "Déplacement",
-          "quantity": "2",
-          "unit": "forfait",
-          "unitPrice": "100",
-          "totalPrice": 200,
-          "childrenIds": [],
-          "parentId": "9"
-        },
-        {
           "id": "6",
           "type": "quotationLine",
           "description": "Cours de ski",
@@ -140,22 +129,9 @@
           "parentId": "9"
         },
         {
-          "id": "13",
-          "type": "mainGroup",
-          "description": "Nouveau Groupe",
-          "quantity": null,
-          "unit": null,
-          "unitPrice": null,
-          "totalPrice": 0,
-          "childrenIds": [
-            "14"
-          ],
-          "parentId": "1"
-        },
-        {
           "id": "14",
-          "type": "subGroup",
-          "description": "Nouveau sous-groupe",
+          "type": "mainGroup",
+          "description": "nouvelau groupe",
           "quantity": null,
           "unit": null,
           "unitPrice": null,
@@ -163,18 +139,31 @@
           "childrenIds": [
             "15"
           ],
-          "parentId": "13"
+          "parentId": "1"
         },
         {
           "id": "15",
+          "type": "subGroup",
+          "description": "nouveau sous gorupe",
+          "quantity": null,
+          "unit": null,
+          "unitPrice": null,
+          "totalPrice": 0,
+          "childrenIds": [
+            "16"
+          ],
+          "parentId": "14"
+        },
+        {
+          "id": "16",
           "type": "quotationLine",
-          "description": "Nouvelle ligne de chiffrage",
-          "quantity": "1",
-          "unit": "h",
-          "unitPrice": "200",
+          "description": "test 2",
+          "quantity": "10",
+          "unit": "u",
+          "unitPrice": "100",
           "totalPrice": 0,
           "childrenIds": [],
-          "parentId": "14"
+          "parentId": "15"
         }
       ],
       "id": "1"

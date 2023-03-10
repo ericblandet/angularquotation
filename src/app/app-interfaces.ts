@@ -2,12 +2,12 @@ export interface Item {
   // [index: string]: any;
   id: string;
   description: string;
-  quantity: number | undefined;
-  unit: string | undefined;
-  unitPrice: number | undefined;
-  totalPrice: number | undefined;
+  quantity: number | null;
+  unit: string | null;
+  unitPrice: number | null;
+  totalPrice: number | null;
   type: string;
-  parentId: string | undefined;
+  parentId: string | null;
   childrenIds: string[];
 }
 
