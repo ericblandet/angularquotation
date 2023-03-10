@@ -1,7 +1,4 @@
-# Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-Run `npm run json-server` for a fake server api. Navigate to `http://localhost:3000/`.
+# Angular quote app
 
 ![Demo gif](demo-quote.gif)
 
@@ -21,6 +18,11 @@ Run `npm run json-server` for a fake server api. Navigate to `http://localhost:3
 
 - The quotation is a tree, with a root node which is not displayed. This allows to recursively compute each totalPrice. It also allows to add new lines easily in the database.
 - The table is a mat-table, mixed with a reactive mat-form, which complicates a lot the script of the component, especially regarding the insertion of new lines.
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `npm run json-server` for a fake server api. Navigate to `http://localhost:3000/`.
 
 ## Remarks
 
